@@ -1,0 +1,25 @@
+
+ #The command updates the default kubeconfig file to use your cluster as the current context.
+ #------------------------------------------------------------------------------------------- 
+  
+  
+  [command]
+  
+  aws eks update-kubeconfig --region us-east-1 --name terraform-eks-demo
+
+
+  
+  #Create the AWS lastic Block Store (EBS) volume in the same region as your cluster. If you have the aws cli installed and configured, this command will create one for you 
+  [command]
+  
+  aws ec2 create-volume --availability-zone=us-east-1a --size=10 --volume-type=gp2
+  
+  
+  #With this new volume, attach it onto the  node in your cluster. If you have the aws cli installed and configured, this command will perform this for you
+  [commnad]
+  
+   aws ec2 attach-volume --device /dev/xvdf --instance-id [instance-id] --volume-id [volume-id]
+   
+  #With the name of the volume, create the filesystem on the volume. This only needs to be done once on the volume.
+  
+   sudo mkfs -t xfs /dev/xvdf
